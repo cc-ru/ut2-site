@@ -29,3 +29,8 @@ def root():
 @app.route('/mods')
 def mods():
     return render_template('mods.html')
+
+
+@app.route('/schedule')
+def schedule():
+    return render_template('schedule.html')

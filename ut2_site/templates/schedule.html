@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Schedule{% endblock %}
+{% block content %}
+  <h1>Schedule</h1>
+  <p>All times given in UTC.</p>
+  <table>
+    <tbody>
+      {% with schedule = [
+          ("2017-04-14 00:00:00", "2017-04-14 12:00:00", "Hey")
+        ] -%}
+        {% for start, end, action in schedule -%}
+          <tr>
+            <td class="center-align">{{ start }}</td>
+            <td class="center-align">{{ end }}</td>
+            <td class="left-align">{{ action }}</td>
+          </tr>
+        {%- endfor %}
+      {%- endwith %}
+    </tbody>
+  </table>
+{% endblock %}
