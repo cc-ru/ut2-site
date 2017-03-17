@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+      <title>{% block title %}{% endblock %} - Unreal Tournament: Resurrection -- Part Two: Deathmatch</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div id="navbar">
+      <ul>
+        <li><a href="{{ url_for('root') }}">Index</a></li>
+      </ul>
+    </div>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div id="messages">
+          {% for category, message in messages %}
+            <div class="message {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <div id="content">{% block content %}{% endblock %}</div>
+  </body>
+</html>
