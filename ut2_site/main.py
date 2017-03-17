@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, flash
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -23,4 +23,5 @@ def close_db(error):
 
 @app.route('/')
 def root():
+    flash('Hey', 'warn')
     return render_template('root.html')
