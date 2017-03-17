@@ -93,16 +93,57 @@ body {
 
 h1 {
   margin: 8px -1em;
-  margin-right: 1em;
+  margin-right: 0;
   padding-left: 1em;
   padding-bottom: 2px;
   border-bottom: 1px solid #cc4444;
   color: #fff;
-  font-size: 32pt;
+  font-size: 28pt;
   box-shadow: 0 2px 0px rgba(0, 0, 0, 0.2);
+}
+
+h1 .subtitle {
+  font-size: 18pt;
+  color: #fff;
+  font-weight: bold;
 }
 
 p {
   margin: 12px 0;
   font-size: 13pt;
+}
+
+table {
+  width: 100%;
+  padding: 10px 5px;
+}
+
+table tr {
+  background: #505050;
+}
+
+table tr:nth-child(2n+1) {
+  background: #585858;
+}
+
+table tr > th {
+  background: #666;
+  color: #fff;
+  height: 2em;
+}
+
+table tr td {
+  padding: 2px 4px;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.center-align {
+  text-align: center;
+}
+
+.left-align {
+  text-align: left;
 }

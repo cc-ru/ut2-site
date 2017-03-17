@@ -1,0 +1,28 @@
+{%extends "layout.html" %}
+{% block title %}Modpack{% endblock %}
+{% block content %}
+  <h1>Mod list</h1>
+  <table>
+    <tbody>
+      <tr>
+        <th>Mod name</th>
+        <th>Version</th>
+        <th>Author[s]</th>
+      </tr>
+      {% with mods = [
+          ["Chisel", "0.0.8.12", "Chisel team"],
+          ["Chisels&Bits", "12.12", "AlgorithmX2"],
+          ["ClientFixer", "1.4", "?"],
+          ["Computronics", "1.6.2", "asiekierka, Vexatos"]
+        ] -%}
+        {% for mod, version, author in mods if mod -%}
+          <tr>
+            <td class="right-align">{{ mod }}</td>
+            <td class="center-align">{{ version }}</td>
+            <td class="left-align">{{ author }}</td>
+          </tr>
+        {%- endfor %}
+      {%- endwith %}
+    </tbody>
+  </table>
+{% endblock %}

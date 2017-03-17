@@ -23,5 +23,9 @@ def close_db(error):
 
 @app.route('/')
 def root():
-    flash('Hey', 'warn')
     return render_template('root.html')
+
+
+@app.route('/mods')
+def mods():
+    return render_template('mods.html')
