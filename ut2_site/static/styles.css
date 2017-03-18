@@ -198,6 +198,25 @@ input[type="submit"]:hover {
   color: #fff;
 }
 
+input[type="file"] {
+  display: block;
+}
+
+input[type="radio"] {
+  width: unset;
+  margin-bottom: 0;
+}
+
+ul.radio {
+  margin: 0;
+  margin-bottom: 1em;
+  padding-left: 0;
+}
+
+ul.radio {
+  list-style-type: none;
+}
+
 .form-errors {
   list-style-type: none;
   border-radius: 3px;

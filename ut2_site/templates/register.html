@@ -4,6 +4,7 @@
 {% block content %}
   <h1>Register</h1>
   <form method="post">
+    {{ form.csrf_token }}
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}
     {{ render_field(form.confirm) }}

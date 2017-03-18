@@ -1,7 +1,10 @@
+import os.path
+
 from flask import Blueprint, render_template, redirect, url_for, flash, \
     request, session
 
-from ut2_site.main import get_db, hash_salt, LoginForm, RegisterForm
+from ut2_site.main import get_db, hash_salt, LoginForm, RegisterForm, \
+    AccountForm, set_skin, set_cape
 
 mod = Blueprint('views', __name__)
 
@@ -25,8 +28,8 @@ def schedule():
 def register():
     if session.get('logged_in', False):
         return redirect(url_for('views.root'))
-    form = RegisterForm(request.form)
-    if request.method == 'POST' and form.validate():
+    form = RegisterForm()
+    if form.validate_on_submit():
         db = get_db()
         if db.users.find_one({'username': form.username.data.lower()}):
             flash('Such username is used', 'error')
@@ -46,8 +49,8 @@ def register():
 def login():
     if session.get('logged_in', False):
         return redirect(url_for('views.root'))
-    form = LoginForm(request.form)
-    if request.method == 'POST' and form.validate():
+    form = LoginForm()
+    if form.validate_on_submit():
         db = get_db()
         password = hash_salt(form.username.data, form.password.data)
         user = db.users.find_one({'username': form.username.data.lower(),
@@ -71,3 +74,27 @@ def logout():
         flash('Logged out!', 'ok')
         return redirect(url_for('views.root'))
     return redirect(url_for('views.root'))
+
+
+@mod.route('/account', methods=['GET', 'POST'])
+def account():
+    if not session.get('logged_in', False):
+        return redirect(url_for('views.root'))
+    form = AccountForm()
+    if form.validate_on_submit():
+        if form.delete.data:
+            if form.subject.data == 'skin':
+                set_skin(session['username'], None)
+                flash('Skin removed!', 'ok')
+            elif form.subject.data == 'cape':
+                set_cape(session['username'], None)
+                flash('Cape removed!', 'ok')
+        elif form.submit.data:
+            f = form.image.data
+            if form.subject.data == 'skin':
+                set_skin(session['username'], f)
+                flash('Skin set!', 'ok')
+            elif form.subject.data == 'cape':
+                set_cape(session['username'], f)
+                flash('Cape set!', 'ok')
+    return render_template('account.html', form=form)

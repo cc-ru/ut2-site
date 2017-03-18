@@ -1,0 +1,13 @@
+{% from "util.html" import render_field %}
+{% extends "layout.html" %}
+{% block title %}Account{% endblock %}
+{% block content %}
+  <h1>Account</h1>
+  <form method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ render_field(form.image) }}
+    {{ render_field(form.subject, class="radio") }}
+    {{ form.submit()|safe }}
+    {{ form.delete()|safe }}
+  </form>
+{% endblock %}

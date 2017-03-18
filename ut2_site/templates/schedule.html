@@ -6,7 +6,8 @@
   <table>
     <tbody>
       {% with schedule = [
-          ("2017-04-14 00:00:00", "2017-04-14 12:00:00", "Hey")
+          ("2017-04-14 12:00:00", "2017-04-14 15:00:00", "The first day"),
+          ("2017-04-15 12:00:00", "2017-04-15 15:00:00", "The second day")
         ] -%}
         {% for start, end, action in schedule -%}
           <tr>
