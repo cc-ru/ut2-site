@@ -1,3 +1,4 @@
+import io
 import os.path
 
 from flask import Blueprint, render_template, redirect, url_for, flash, \
@@ -92,9 +93,13 @@ def account():
         elif form.submit.data:
             f = form.image.data
             if form.subject.data == 'skin':
-                set_skin(session['username'], f)
+                buf = io.BytesIO(b'')
+                f.save(buf)
+                set_skin(session['username'], buf)
                 flash('Skin set!', 'ok')
             elif form.subject.data == 'cape':
-                set_cape(session['username'], f)
+                buf = io.BytesIO(b'')
+                f.save(buf)
+                set_cape(session['username'], buf)
                 flash('Cape set!', 'ok')
     return render_template('account.html', form=form)

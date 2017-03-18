@@ -8,5 +8,6 @@ setup(
         'Flask',
         'Flask-WTF',
         'Flask-Uploads',
-        'pymongo'
+        'pymongo',
+        'python-magic'
     ])

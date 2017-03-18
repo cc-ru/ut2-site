@@ -1,9 +1,10 @@
 import hashlib
 
 from flask import Flask, g
-from flask_uploads import UploadSet, configure_uploads, patch_request_class
+from flask_uploads import UploadSet, configure_uploads
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
+import magic
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 from wtforms import Form, StringField, PasswordField, validators, \
@@ -18,13 +19,12 @@ app.config.update(dict(
     SALT=('\x14\x15\x99\x9b\xcf\xe7\xe1J\xda=dcM6\x1f\xc7\xb5\xe0\x80\x90\xd6'
           '\xed\x03\xa0\xd6\xfa\x99\x9d6r\x00\x02f\x00\xd3\x93\x10j\xb9$\x17%'
           '\xee\xe8C;\xf8\xba'),
-    UPLOAD_DIR='/tmp/imagedata/'
+    UPLOAD_FOLDER='/tmp/imagedata/',
+    MAX_CONTENT_LENGTH=32 * 1024
 ))
 
-patch_request_class(app, 32 * 1024)
-
 png_images = UploadSet('pngimages', ('png',),
-                       lambda app: app.config['UPLOAD_DIR'])
+                       lambda app: app.config['UPLOAD_FOLDER'])
 
 configure_uploads(app, (png_images,))
 
