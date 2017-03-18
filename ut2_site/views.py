@@ -67,6 +67,19 @@ def login():
     return render_template('login.html', form=form)
 
 
+@mod.route('/authcheck')
+def auth_check():
+    username = request.args.get('username', None)
+    password = request.args.get('password', None)
+    if username and password:
+        db = get_db()
+        hashed = hash_salt(username, password)
+        user = db.users.find_one({'username': username, 'password': hashed})
+        if user:
+            return "OK:{username}".format(username=username)
+    return "Failed to authenticate"
+
+
 @mod.route('/logout')
 def logout():
     if session.get('logged_in', False):
