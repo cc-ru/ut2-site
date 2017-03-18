@@ -2,7 +2,7 @@ import io
 import os.path
 
 from flask import Blueprint, render_template, redirect, url_for, flash, \
-    request, session
+    request, session, current_app
 
 from ut2_site.main import get_db, hash_salt, LoginForm, RegisterForm, \
     AccountForm, set_skin, set_cape
@@ -108,11 +108,19 @@ def account():
             if form.subject.data == 'skin':
                 buf = io.BytesIO(b'')
                 f.save(buf)
-                set_skin(session['username'], buf)
-                flash('Skin set!', 'ok')
+                buf.seek(0, 0)
+                result = set_skin(session['username'], buf)
+                if result is True:
+                    flash('Skin set!', 'ok')
+                else:
+                    flash(result[1], 'error')
             elif form.subject.data == 'cape':
                 buf = io.BytesIO(b'')
                 f.save(buf)
-                set_cape(session['username'], buf)
-                flash('Cape set!', 'ok')
+                buf.seek(0, 0)
+                result = set_cape(session['username'], buf)
+                if result is True:
+                    flash('Cape set!', 'ok')
+                else:
+                    flash(result[1], 'error')
     return render_template('account.html', form=form)

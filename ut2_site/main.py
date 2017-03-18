@@ -1,4 +1,6 @@
 import hashlib
+import os.path
+import re
 
 from flask import Flask, g
 from flask_uploads import UploadSet, configure_uploads
@@ -28,16 +30,31 @@ png_images = UploadSet('pngimages', ('png',),
 
 configure_uploads(app, (png_images,))
 
+resolution_re = re.compile(r', (\d+) x (\d+),')
+username_re = re.compile(r'^[A-Za-z0-9_]+$')
+
 
 class RegisterForm(FlaskForm):
-    username = StringField('Username', [validators.Length(min=3, max=25)])
+    username = StringField('Username', [validators.Length(min=3, max=25),
+                                        validators.Regexp(
+                                            username_re, 0,
+                                            'Incorrect characters. Allowed '
+                                            'are alphanumeric characters, and '
+                                            'underscore.'
+                                        )])
     password = PasswordField('Password', [validators.DataRequired()])
     confirm = PasswordField('Repeat password', [
         validators.EqualTo('password', 'Passwords must match')])
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', [validators.DataRequired()])
+    username = StringField('Username', [validators.DataRequired(),
+                                        validators.Regexp(
+                                            username_re, 0,
+                                            'Incorrect characters. Allowed '
+                                            'are alphanumeric characters, and '
+                                            'underscore.'
+                                        )])
     password = PasswordField('Password', [validators.DataRequired()])
 
 
@@ -68,12 +85,46 @@ def hash_salt(username, password):
     return hashlib.sha512(hash_data.encode()).hexdigest()
 
 
-def set_skin(username, f):
-    pass
+def set_skin(username, buf):
+    try:
+        m = magic.from_buffer(buf.read(2048))
+    except:
+        return False, "Bad image"
+    match = resolution_re.search(m)
+    if not match or len(match.groups()) != 2:
+        return False, "Bad image"
+    w, h = match.groups()
+    w, h = int(w), int(h)
+    if w != 64 or h != 32:
+        return False, "Expected a 64x32 image"
+    buf.seek(0, 0)
+    with open(os.path.join(
+            app.config['UPLOAD_FOLDER'],
+            'skins',
+            username + '.png'), 'wb') as f:
+        f.write(buf.read())
+    return True
 
 
-def set_cape(username, f):
-    pass
+def set_cape(username, buf):
+    try:
+        m = magic.from_buffer(buf.read(8192))
+    except:
+        return False, "Bad image"
+    match = resolution_re.search(m)
+    if not match or len(match.groups()) != 2:
+        return False, "Bad image"
+    w, h = match.groups()
+    w, h = int(w), int(h)
+    if w != 64 or h != 32:
+        return False, "Expected a 64x32 image"
+    buf.seek(0, 0)
+    with open(os.path.join(
+            app.config['UPLOAD_FOLDER'],
+            'capes',
+            username + '.png'), 'wb') as f:
+        f.write(buf.read())
+    return True
 
 
 @app.teardown_appcontext
