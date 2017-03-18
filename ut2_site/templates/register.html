@@ -1,0 +1,12 @@
+{% from "util.html" import render_field %}
+{% extends "layout.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+  <h1>Register</h1>
+  <form method="post">
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    {{ render_field(form.confirm) }}
+    <input type="submit" value="Register" />
+  </form>
+{% endblock %}

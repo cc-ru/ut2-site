@@ -147,3 +147,89 @@ table tr td {
 .left-align {
   text-align: left;
 }
+
+form {
+  position: relative;
+  width: 100%;
+  padding: 10px 5px;
+}
+
+input {
+  margin: 0;
+  margin-bottom: 1em;
+  width: 33%;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  transition: border 0.1s ease-in-out,
+              box-shadow 0.1s ease-in-out;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+  outline: none;
+}
+
+input:focus {
+  border: 1px solid #aa4444;
+  box-shadow: 0 0 2px rgba(102, 68, 68, 0.6);
+  outline: none;
+}
+
+input[type="text"], input[type="password"] {
+  color: #ddd;
+  background: #555;
+  padding: 4px 3px;
+  display: block;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6) inset;
+}
+
+input[type="submit"] {
+  color: #ddd;
+  background: #555;
+  padding: 4px 3px;
+  display: block;
+  transition: background-color 0.1s ease-in-out,
+              color 0.1s ease-in-out;
+}
+
+input[type="submit"]:hover {
+  background: #664444;
+  color: #fff;
+}
+
+.form-errors {
+  list-style-type: none;
+  border-radius: 3px;
+  background: #664444;
+  width: 80%;
+  padding: 0.25em 2em;
+  position: relative;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+}
+
+.form-errors:after, .form-errors:before {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+}
+
+.form-errors:before {
+  border: 10px solid transparent;
+  z-index: 2;
+  border-bottom-color: #664444;
+  left: 20px;
+  top: -20px;
+}
+
+.form-errors:after {
+  border: 11px solid transparent;
+  z-index: 1;
+  border-bottom-color: rgba(0, 0, 0, 0.4);
+  left: 19px;
+  top: -22px;
+}
+
+.form-errors li {
+  margin: 0.5em 0;
+}

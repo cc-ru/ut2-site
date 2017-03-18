@@ -13,6 +13,12 @@
         <li><a href="{{ url_for('root') }}">Index</a></li>
         <li><a href="{{ url_for('mods') }}">Mods</a></li>
         <li><a href="{{ url_for('schedule') }}">Schedule</a></li>
+        {% if not session['logged_in'] %}
+          <li><a href="{{ url_for('register') }}">Register</a></li>
+          <li><a href="{{ url_for('login') }}">Log in</a></li>
+        {% else %}
+          <li><a href="{{ url_for('logout') }}">Log out</a></li>
+        {% endif %}
       </ul>
     </div>
     <div id="top-span"></div>
