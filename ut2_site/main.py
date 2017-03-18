@@ -1,4 +1,5 @@
 import hashlib
+import os
 import os.path
 import re
 
@@ -86,6 +87,15 @@ def hash_salt(username, password):
 
 
 def set_skin(username, buf):
+    if not buf:
+        try:
+            os.remove(os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                'skins',
+                username + '.png'))
+        except FileNotFoundError:
+            pass
+        return True
     try:
         m = magic.from_buffer(buf.read(2048))
     except:
@@ -107,6 +117,15 @@ def set_skin(username, buf):
 
 
 def set_cape(username, buf):
+    if not buf:
+        try:
+            os.remove(os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                'capes',
+                username + '.png'))
+        except FileNotFoundError:
+            pass
+        return True
     try:
         m = magic.from_buffer(buf.read(8192))
     except:

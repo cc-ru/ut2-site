@@ -98,11 +98,17 @@ def account():
     if form.validate_on_submit():
         if form.delete.data:
             if form.subject.data == 'skin':
-                set_skin(session['username'], None)
-                flash('Skin removed!', 'ok')
+                result = set_skin(session['username'], None)
+                if result is True:
+                    flash('Skin removed!', 'ok')
+                else:
+                    flash(result[1], 'error')
             elif form.subject.data == 'cape':
-                set_cape(session['username'], None)
-                flash('Cape removed!', 'ok')
+                result = set_cape(session['username'], None)
+                if result is True:
+                    flash('Cape removed!', 'ok')
+                else:
+                    flash(result[1], 'error')
         elif form.submit.data:
             f = form.image.data
             if form.subject.data == 'skin':
