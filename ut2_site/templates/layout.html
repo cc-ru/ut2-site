@@ -10,14 +10,14 @@
   <body>
     <div id="navbar">
       <ul>
-        <li><a href="{{ url_for('root') }}">Index</a></li>
-        <li><a href="{{ url_for('mods') }}">Mods</a></li>
-        <li><a href="{{ url_for('schedule') }}">Schedule</a></li>
+        <li><a href="{{ url_for('views.root') }}">Index</a></li>
+        <li><a href="{{ url_for('views.mods') }}">Mods</a></li>
+        <li><a href="{{ url_for('views.schedule') }}">Schedule</a></li>
         {% if not session['logged_in'] %}
-          <li><a href="{{ url_for('register') }}">Register</a></li>
-          <li><a href="{{ url_for('login') }}">Log in</a></li>
+          <li><a href="{{ url_for('views.register') }}">Register</a></li>
+          <li><a href="{{ url_for('views.login') }}">Log in</a></li>
         {% else %}
-          <li><a href="{{ url_for('logout') }}">Log out</a></li>
+          <li><a href="{{ url_for('views.logout') }}">Log out</a></li>
         {% endif %}
       </ul>
     </div>
