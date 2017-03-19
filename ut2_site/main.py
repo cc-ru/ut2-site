@@ -4,9 +4,6 @@ import os.path
 import re
 
 from flask import Flask, g
-from flask_uploads import UploadSet, configure_uploads
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired, FileAllowed
 import magic
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
@@ -26,6 +23,11 @@ app.config.update(dict(
     MAX_CONTENT_LENGTH=32 * 1024
 ))
 
+app.config.from_envvar('UT2SITESETTINGS')
+
+from flask_uploads import UploadSet, configure_uploads
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 png_images = UploadSet('pngimages', ('png',),
                        lambda app: app.config['UPLOAD_FOLDER'])
 
