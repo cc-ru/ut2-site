@@ -11,7 +11,6 @@ from wtforms import Form, StringField, PasswordField, validators, \
     SubmitField, RadioField, ValidationError
 
 app = Flask(__name__)
-app.config.from_object(__name__)
 
 app.config.update(dict(
     SECRET_KEY='_h{\x12\xa3\xce\xAdf\xa4H\x07\x9a\xa0\xea\n\xe0`\xec?+Q\x13\x17Hy\xafC#\x19\xcc\xc5MN',
@@ -23,7 +22,8 @@ app.config.update(dict(
     MAX_CONTENT_LENGTH=32 * 1024
 ))
 
-app.config.from_envvar('UT2SITESETTINGS')
+if 'UT2SITESETTINGS' in os.environ and os.environ['UT2SITESETTINGS']:
+    app.config.from_envvar('UT2SITESETTINGS')
 
 from flask_uploads import UploadSet, configure_uploads
 from flask_wtf import FlaskForm

@@ -2,7 +2,7 @@ import io
 import os.path
 
 from flask import Blueprint, render_template, redirect, url_for, flash, \
-    request, session, current_app
+    request, session, current_app, send_from_directory
 
 from ut2_site.main import get_db, hash_salt, LoginForm, RegisterForm, \
     AccountForm, set_skin, set_cape
@@ -130,3 +130,21 @@ def account():
                 else:
                     flash(result[1], 'error')
     return render_template('account.html', form=form)
+
+
+@mod.route('/skins/<username>.png')
+def serve_skins(username):
+    current_app.logger.debug(username)
+    return send_from_directory(os.path.join(
+        current_app.config['UPLOAD_FOLDER'],
+        'skins'),
+        username + '.png')
+
+
+@mod.route('/capes/<username>.png')
+def serve_capes(username):
+    current_app.logger.debug(username)
+    return send_from_directory(os.path.join(
+        current_app.config['UPLOAD_FOLDER'],
+        'capes'),
+        username + '.png')
