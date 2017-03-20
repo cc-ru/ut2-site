@@ -7,6 +7,6 @@
     {{ form.csrf_token }}
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}
-    <input type="submit" value="Log in" />
+    {{ form.submit()|safe }}
   </form>
 {% endblock %}

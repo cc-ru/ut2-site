@@ -19,10 +19,10 @@
           ("JEI", "3.14.5.406", "mezz"),
           ("OpenComputers", "1.6.2.7", "Sangar"),
           ("OpenGlasses", "1.3", "marcin212"),
-          ("Unreality", "0.1.0-b", "Totoro"),
+          ("Unreality", "0.1.0-e", "Totoro"),
           ("WAILA", "1.7.0-B3", "ProfMobius")
         ] -%}
-        {% for mod, version, author in mods if mod -%}
+        {% for mod, version, author in mods -%}
           <tr>
             <td class="right-align">{{ mod }}</td>
             <td class="center-align">{{ version }}</td>

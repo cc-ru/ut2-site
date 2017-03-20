@@ -48,6 +48,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', [validators.DataRequired()])
     confirm = PasswordField('Repeat password', [
         validators.EqualTo('password', 'Passwords must match')])
+    submit = SubmitField('Register')
 
 
 class LoginForm(FlaskForm):
@@ -59,6 +60,7 @@ class LoginForm(FlaskForm):
                                             'underscore.'
                                         )])
     password = PasswordField('Password', [validators.DataRequired()])
+    submit = SubmitField('Log in')
 
 
 class AccountForm(FlaskForm):

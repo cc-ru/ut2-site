@@ -8,6 +8,6 @@
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}
     {{ render_field(form.confirm) }}
-    <input type="submit" value="Register" />
+    {{ form.submit()|safe }}
   </form>
 {% endblock %}
