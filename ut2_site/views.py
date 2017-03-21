@@ -35,7 +35,8 @@ def register():
         if db.users.find_one({'username': form.username.data.lower()}):
             flash('Such username is used', 'error')
         else:
-            password = hash_salt(form.username.data, form.password.data)
+            password = hash_salt(form.username.data.lower(),
+                                 form.password.data)
             db.users.insert_one({
                 'username': form.username.data.lower(),
                 'realname': form.username.data,
