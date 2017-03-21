@@ -53,7 +53,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         db = get_db()
-        password = hash_salt(form.username.data, form.password.data)
+        password = hash_salt(form.username.data.lower(), form.password.data)
         user = db.users.find_one({'username': form.username.data.lower(),
                                   'password': password})
         if not user:
@@ -72,6 +72,7 @@ def auth_check():
     username = request.args.get('username', None)
     password = request.args.get('password', None)
     if username and password:
+        username = username.lower()
         db = get_db()
         hashed = hash_salt(username, password)
         user = db.users.find_one({'username': username, 'password': hashed})
