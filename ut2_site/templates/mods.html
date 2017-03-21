@@ -1,13 +1,13 @@
 {%extends "layout.html" %}
 {% block title %}Modpack{% endblock %}
 {% block content %}
-  <h1>Mod list</h1>
+  <h1>Список модов</h1>
   <table>
     <tbody>
       <tr>
-        <th>Mod name</th>
-        <th>Version</th>
-        <th>Author[s]</th>
+        <th>Имя мода</th>
+        <th>Версия</th>
+        <th>Авторы</th>
       </tr>
       {% with mods = [
           ("Chisel", "0.0.8.12", "Chisel team"),

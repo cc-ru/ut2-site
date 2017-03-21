@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 {% block title %}Register{% endblock %}
 {% block content %}
-  <h1>Register</h1>
+  <h1>Регистрация</h1>
   <form method="post">
     {{ form.csrf_token }}
     {{ render_field(form.username) }}

@@ -10,15 +10,15 @@
   <body>
     <div id="navbar">
       <ul>
-        <li><a href="{{ url_for('views.root') }}">Index</a></li>
-        <li><a href="{{ url_for('views.mods') }}">Mods</a></li>
-        <li><a href="{{ url_for('views.schedule') }}">Schedule</a></li>
+        <li><a href="{{ url_for('views.root') }}">Главная</a></li>
+        <li><a href="{{ url_for('views.mods') }}">Модпак</a></li>
+        <li><a href="{{ url_for('views.schedule') }}">Расписание</a></li>
         {% if not session['logged_in'] %}
-          <li><a href="{{ url_for('views.register') }}">Register</a></li>
-          <li><a href="{{ url_for('views.login') }}">Log in</a></li>
+          <li><a href="{{ url_for('views.register') }}">Регистрация</a></li>
+          <li><a href="{{ url_for('views.login') }}">Авторизация</a></li>
         {% else %}
-          <li><a href="{{ url_for('views.account') }}">Account</a></li>
-          <li><a href="{{ url_for('views.logout') }}">Log out</a></li>
+          <li><a href="{{ url_for('views.account') }}">Аккаунт</a></li>
+          <li><a href="{{ url_for('views.logout') }}">Выйти</a></li>
         {% endif %}
       </ul>
     </div>

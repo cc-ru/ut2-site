@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 {% block title %}Account{% endblock %}
 {% block content %}
-  <h1>Account</h1>
+  <h1>Аккаунт</h1>
   <form method="post" enctype="multipart/form-data">
     {{ form.csrf_token }}
     {{ render_field(form.image) }}

@@ -23,7 +23,7 @@ app.config.update(dict(
 ))
 
 if 'UT2SITESETTINGS' in os.environ and os.environ['UT2SITESETTINGS']:
-    app.config.from_envvar('UT2SITESETTINGS')
+    app.config.from_envvar('UT2SITESETTINGS', silent=True)
 
 from flask_uploads import UploadSet, configure_uploads
 from flask_wtf import FlaskForm
@@ -38,41 +38,41 @@ username_re = re.compile(r'^[A-Za-z0-9_]+$')
 
 
 class RegisterForm(FlaskForm):
-    username = StringField('Username', [validators.Length(min=3, max=25),
-                                        validators.Regexp(
-                                            username_re, 0,
-                                            'Incorrect characters. Allowed '
-                                            'are alphanumeric characters, and '
-                                            'underscore.'
-                                        )])
-    password = PasswordField('Password', [validators.DataRequired()])
-    confirm = PasswordField('Repeat password', [
+    username = StringField('Имя пользователя',
+                           [validators.Length(min=3, max=25),
+                            validators.Regexp(username_re,
+                                              0,
+                                              'Incorrect characters. Allowed '
+                                              'are alphanumeric characters, '
+                                              'and underscore.')])
+    password = PasswordField('Пароль', [validators.DataRequired()])
+    confirm = PasswordField('Повторите пароль', [
         validators.EqualTo('password', 'Passwords must match')])
-    submit = SubmitField('Register')
+    submit = SubmitField('Зарегистрироваться')
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', [validators.DataRequired(),
-                                        validators.Regexp(
-                                            username_re, 0,
-                                            'Incorrect characters. Allowed '
-                                            'are alphanumeric characters, and '
-                                            'underscore.'
-                                        )])
-    password = PasswordField('Password', [validators.DataRequired()])
-    submit = SubmitField('Log in')
+    username = StringField('Имя пользователя',
+                           [validators.DataRequired(),
+                            validators.Regexp(username_re,
+                                              0,
+                                              'Incorrect characters. Allowed '
+                                              'are alphanumeric characters, '
+                                              'and underscore.')])
+    password = PasswordField('Пароль', [validators.DataRequired()])
+    submit = SubmitField('Войти')
 
 
 class AccountForm(FlaskForm):
-    image = FileField('Image file', [FileAllowed(png_images,
+    image = FileField('Изображение', [FileAllowed(png_images,
                                                   'Unsupported image type')])
-    subject = RadioField('What to change', [validators.DataRequired()],
+    subject = RadioField('Что изменить:', [validators.DataRequired()],
                          choices=[
-                             ('skin', 'Skin'),
-                             ('cape', 'Cape')
+                             ('skin', 'Скин'),
+                             ('cape', 'Плащ')
                          ])
-    submit = SubmitField('Set')
-    delete = SubmitField('Remove')
+    submit = SubmitField('Установить')
+    delete = SubmitField('Удалить')
 
     def validate_image(form, field):
         if form.submit.data and not field.data:
