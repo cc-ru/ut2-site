@@ -78,7 +78,7 @@ def auth_check():
         hashed = hash_salt(username, password)
         user = db.users.find_one({'username': username, 'password': hashed})
         if user:
-            return "OK:{username}".format(username=username)
+            return 'OK:{username}'.format(username=user['realname'])
     return "Failed to authenticate"
 
 
