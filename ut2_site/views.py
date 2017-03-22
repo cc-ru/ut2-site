@@ -33,7 +33,7 @@ def register():
     if form.validate_on_submit():
         db = get_db()
         if db.users.find_one({'username': form.username.data.lower()}):
-            flash('Such username is used', 'error')
+            flash('Имя пользователя занято', 'error')
         else:
             password = hash_salt(form.username.data.lower(),
                                  form.password.data)
@@ -42,7 +42,7 @@ def register():
                 'realname': form.username.data,
                 'password': password
             })
-            flash('Registered!', 'ok')
+            flash('Регистрация успешна!', 'ok')
             return redirect(url_for('views.login'))
     return render_template('register.html', form=form)
 
@@ -58,12 +58,12 @@ def login():
         user = db.users.find_one({'username': form.username.data.lower(),
                                   'password': password})
         if not user:
-            flash('Incorrect username and/or password', 'error')
+            flash('Неправильный пароль и/или имя пользователя', 'error')
         else:
             session['logged_in'] = True
             session['username'] = user['username']
             session['realname'] = user['realname']
-            flash('Logged in!', 'ok')
+            flash('Авторизация успешна!', 'ok')
             return redirect(url_for('views.root'))
     return render_template('login.html', form=form)
 
@@ -87,7 +87,7 @@ def logout():
     if session.get('logged_in', False):
         session.pop('logged_in', None)
         session.pop('username', None)
-        flash('Logged out!', 'ok')
+        flash('Вы вышли из аккаунта', 'ok')
         return redirect(url_for('views.root'))
     return redirect(url_for('views.root'))
 
@@ -102,13 +102,13 @@ def account():
             if form.subject.data == 'skin':
                 result = set_skin(session['username'], None)
                 if result is True:
-                    flash('Skin removed!', 'ok')
+                    flash('Скрин удалён', 'ok')
                 else:
                     flash(result[1], 'error')
             elif form.subject.data == 'cape':
                 result = set_cape(session['username'], None)
                 if result is True:
-                    flash('Cape removed!', 'ok')
+                    flash('Плащ удалён', 'ok')
                 else:
                     flash(result[1], 'error')
         elif form.submit.data:
@@ -119,7 +119,7 @@ def account():
                 buf.seek(0, 0)
                 result = set_skin(session['username'], buf)
                 if result is True:
-                    flash('Skin set!', 'ok')
+                    flash('Скин установлен', 'ok')
                 else:
                     flash(result[1], 'error')
             elif form.subject.data == 'cape':
@@ -128,7 +128,7 @@ def account():
                 buf.seek(0, 0)
                 result = set_cape(session['username'], buf)
                 if result is True:
-                    flash('Cape set!', 'ok')
+                    flash('Плащ установлен', 'ok')
                 else:
                     flash(result[1], 'error')
     return render_template('account.html', form=form)

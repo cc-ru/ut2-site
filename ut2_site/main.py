@@ -7,8 +7,9 @@ from flask import Flask, g
 import magic
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
-from wtforms import Form, StringField, PasswordField, validators, \
-    SubmitField, RadioField, ValidationError
+from wtforms import Form, StringField, PasswordField, SubmitField, \
+    RadioField, ValidationError
+from wtforms.validators import Length, Regexp, DataRequired, EqualTo
 
 app = Flask(__name__)
 
@@ -39,34 +40,36 @@ username_re = re.compile(r'^[A-Za-z0-9_]+$')
 
 class RegisterForm(FlaskForm):
     username = StringField('Имя пользователя',
-                           [validators.Length(min=3, max=25),
-                            validators.Regexp(username_re,
-                                              0,
-                                              'Incorrect characters. Allowed '
-                                              'are alphanumeric characters, '
-                                              'and underscore.')])
-    password = PasswordField('Пароль', [validators.DataRequired()])
+                           [Length('Требуемая длина: 3-25 символов',
+                                   min=3,
+                                   max=25),
+                            Regexp(username_re,
+                                   0,
+                                   'Некорректные символы. Имя пользователя '
+                                   'может состоять из букв, цифр и '
+                                   'символа подчёркивания (_)')])
+    password = PasswordField('Пароль', [DataRequired('Поле пусто')])
     confirm = PasswordField('Повторите пароль', [
-        validators.EqualTo('password', 'Passwords must match')])
+        EqualTo('password', 'Пароли должны совпадать')])
     submit = SubmitField('Зарегистрироваться')
 
 
 class LoginForm(FlaskForm):
     username = StringField('Имя пользователя',
-                           [validators.DataRequired(),
-                            validators.Regexp(username_re,
-                                              0,
-                                              'Incorrect characters. Allowed '
-                                              'are alphanumeric characters, '
-                                              'and underscore.')])
-    password = PasswordField('Пароль', [validators.DataRequired()])
+                           [DataRequired('Поле пусто'),
+                            Regexp(username_re,
+                                   0,
+                                   'Некорректные символы. Имя пользователя '
+                                   'может состоять из букв, цифр и '
+                                   'символа подчёркивания (_)')])
+    password = PasswordField('Пароль', [DataRequired('Поле пусто')])
     submit = SubmitField('Войти')
 
 
 class AccountForm(FlaskForm):
-    image = FileField('Изображение', [FileAllowed(png_images,
-                                                  'Unsupported image type')])
-    subject = RadioField('Что изменить:', [validators.DataRequired()],
+    image = FileField('Изображение', [
+        FileAllowed(png_images, 'Требуется PNG изображение')])
+    subject = RadioField('Что изменить:', [DataRequired('Поле пусто')],
                          choices=[
                              ('skin', 'Скин'),
                              ('cape', 'Плащ')
@@ -76,7 +79,7 @@ class AccountForm(FlaskForm):
 
     def validate_image(form, field):
         if form.submit.data and not field.data:
-            raise ValidationError("This field is required.")
+            raise ValidationError('Файл не выбран')
 
 
 def get_db():
@@ -103,14 +106,14 @@ def set_skin(username, buf):
     try:
         m = magic.from_buffer(buf.read(2048))
     except:
-        return False, "Bad image"
+        return False, 'Изображение повреждено или не поддерживается'
     match = resolution_re.search(m)
     if not match or len(match.groups()) != 2:
-        return False, "Bad image"
+        return False, 'Изображение повреждено или не поддерживается'
     w, h = match.groups()
     w, h = int(w), int(h)
     if w != 64 or h != 32:
-        return False, "Expected a 64x32 image"
+        return False, 'Требуемый размер: 64×32 пикселя'
     buf.seek(0, 0)
     with open(os.path.join(
             app.config['UPLOAD_FOLDER'],
@@ -133,14 +136,14 @@ def set_cape(username, buf):
     try:
         m = magic.from_buffer(buf.read(8192))
     except:
-        return False, "Bad image"
+        return False, 'Изображение повреждено или не поддерживается'
     match = resolution_re.search(m)
     if not match or len(match.groups()) != 2:
-        return False, "Bad image"
+        return False, 'Изображение повреждено или не поддерживается'
     w, h = match.groups()
     w, h = int(w), int(h)
     if w != 64 or h != 32:
-        return False, "Expected a 64x32 image"
+        return False, 'Требуемый размер: 64×32 пикселя'
     buf.seek(0, 0)
     with open(os.path.join(
             app.config['UPLOAD_FOLDER'],
