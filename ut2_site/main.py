@@ -40,9 +40,9 @@ username_re = re.compile(r'^[A-Za-z0-9_]+$')
 
 class RegisterForm(FlaskForm):
     username = StringField('Имя пользователя',
-                           [Length('Требуемая длина: 3-25 символов',
-                                   min=3,
-                                   max=25),
+                           [Length(min=3,
+                                   max=25,
+                                   message='Требуемая длина: 3-25 символов'),
                             Regexp(username_re,
                                    0,
                                    'Некорректные символы. Имя пользователя '

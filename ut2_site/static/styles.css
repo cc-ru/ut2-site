@@ -253,3 +253,13 @@ ul.radio {
 .form-errors li {
   margin: 0.5em 0;
 }
+
+a, a:visited {
+  color: #aa4444;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover, a:focus {
+  color: #cc6666;
+}
