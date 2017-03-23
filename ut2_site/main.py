@@ -20,7 +20,7 @@ app.config.update(dict(
           '\xed\x03\xa0\xd6\xfa\x99\x9d6r\x00\x02f\x00\xd3\x93\x10j\xb9$\x17%'
           '\xee\xe8C;\xf8\xba'),
     UPLOAD_FOLDER='/tmp/imagedata/',
-    MAX_CONTENT_LENGTH=32 * 1024
+    MAX_CONTENT_LENGTH=1024 * 1024
 ))
 
 if 'UT2SITESETTINGS' in os.environ and os.environ['UT2SITESETTINGS']:
@@ -104,7 +104,7 @@ def set_skin(username, buf):
             pass
         return True
     try:
-        m = magic.from_buffer(buf.read(2048))
+        m = magic.from_buffer(buf.read(32768))
     except:
         return False, 'Изображение повреждено или не поддерживается'
     match = resolution_re.search(m)
@@ -112,8 +112,8 @@ def set_skin(username, buf):
         return False, 'Изображение повреждено или не поддерживается'
     w, h = match.groups()
     w, h = int(w), int(h)
-    if w != 64 or h != 32:
-        return False, 'Требуемый размер: 64×32 пикселя'
+    if not ((w == 64 and h == 32) or (w == 1024 and h == 512)):
+        return False, 'Требуемый размер: 64×32 или 1024×512 пикселей'
     buf.seek(0, 0)
     with open(os.path.join(
             app.config['UPLOAD_FOLDER'],
@@ -134,7 +134,7 @@ def set_cape(username, buf):
             pass
         return True
     try:
-        m = magic.from_buffer(buf.read(8192))
+        m = magic.from_buffer(buf.read(32768))
     except:
         return False, 'Изображение повреждено или не поддерживается'
     match = resolution_re.search(m)
@@ -142,8 +142,8 @@ def set_cape(username, buf):
         return False, 'Изображение повреждено или не поддерживается'
     w, h = match.groups()
     w, h = int(w), int(h)
-    if w != 64 or h != 32:
-        return False, 'Требуемый размер: 64×32 пикселя'
+    if not ((w == 64 or h == 32) or (w == 512 and h == 256)):
+        return False, 'Требуемый размер: 64×32 или 512×256 пикселей'
     buf.seek(0, 0)
     with open(os.path.join(
             app.config['UPLOAD_FOLDER'],
