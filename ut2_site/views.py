@@ -136,17 +136,15 @@ def account():
 
 @mod.route('/skins/<username>.png')
 def serve_skins(username):
-    current_app.logger.debug(username)
     return send_from_directory(os.path.join(
         current_app.config['UPLOAD_FOLDER'],
         'skins'),
-        username + '.png')
+        username.lower() + '.png')
 
 
 @mod.route('/capes/<username>.png')
 def serve_capes(username):
-    current_app.logger.debug(username)
     return send_from_directory(os.path.join(
         current_app.config['UPLOAD_FOLDER'],
         'capes'),
-        username + '.png')
+        username.lower() + '.png')
