@@ -112,8 +112,9 @@ def set_skin(username, buf):
         return False, 'Изображение повреждено или не поддерживается'
     w, h = match.groups()
     w, h = int(w), int(h)
-    if not ((w == 64 and h == 32) or (w == 1024 and h == 512)):
-        return False, 'Требуемый размер: 64×32 или 1024×512 пикселей'
+    if not ((w == 64 and h == 32) or (w == 1024 and h == 512) or
+            (w == 64 and h == 64)):
+        return False, 'Требуемый размер: 64×32, 64×64 или 1024×512 пикселей'
     buf.seek(0, 0)
     with open(os.path.join(
             app.config['UPLOAD_FOLDER'],
